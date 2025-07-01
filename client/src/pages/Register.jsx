@@ -90,6 +90,7 @@ export function Register() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'Accept': 'application/json',
         },
         body: JSON.stringify({
           username,
@@ -98,7 +99,20 @@ export function Register() {
         }),
       })
         .then((res) => res.json())
-        .then(console.log);
+         .then(data => {
+                    for (const item of data) {
+                        if (item.input === 'username') {
+                            setUsernameErr(item.msg);
+                        }
+                        if (item.input === 'email') {
+                            setEmailErr(item.msg);
+                        }
+                        if (item.input === 'password') {
+                            setPassErr(item.msg);
+                        }
+                    }
+                })
+                .catch(err => console.error(err));
     }
   }
 
