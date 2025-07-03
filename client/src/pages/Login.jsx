@@ -1,8 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import style from "./Auth.module.css";
-import { useState } from "react";
+import { useContext, useState } from 'react';
+import { UserContext } from '../context/UserContext';
 
 export function Login() {
+  const ctx = useContext(UserContext);
+  const navigate = useNavigate();
   const [formErr, setFormErr] = useState("");
   const [email, setEmail] = useState("");
   const [emailErr, setEmailErr] = useState("");
@@ -38,6 +41,7 @@ export function Login() {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
+      credentials: 'include',
       body: JSON.stringify({
         email,
         password: pass,
@@ -47,6 +51,10 @@ export function Login() {
       .then((data) => {
         if (data.status === "err") {
           setFormErr(data.msg);
+        }
+        if (data.status === 'ok') {
+            ctx.loginUser();
+            navigate('/dashboard');
         }
       })
       .catch((err) => console.error(err));

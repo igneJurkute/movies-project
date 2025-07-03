@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 export function Header() {
-    const userLoggedIn = false;
+    const ctx = useContext(UserContext);
+    const userLoggedIn = ctx.user.loggedIn;
 
     const publicMenu = (
         <div className="col-md-3 text-end">
