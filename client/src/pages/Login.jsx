@@ -3,6 +3,7 @@ import style from "./Auth.module.css";
 import { useState } from "react";
 
 export function Login() {
+  const [formErr, setFormErr] = useState("");
   const [email, setEmail] = useState("");
   const [emailErr, setEmailErr] = useState("");
   const [pass, setPass] = useState("");
@@ -43,13 +44,33 @@ export function Login() {
       }),
     })
       .then((res) => res.json())
-      .then(console.log)
+      .then((data) => {
+        if (data.status === "err") {
+          setFormErr(data.msg);
+        }
+      })
       .catch((err) => console.error(err));
   }
   return (
     <div className={`form-signin w-100 m-auto ${style.formSignin}`}>
       <form onSubmit={handleSubmit}>
         <h1 className="h1 mb-3 fw-normal">Please sign in</h1>
+
+        {formErr && (
+          <div
+            className="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
+            {formErr}
+            <button
+              onClick={() => setFormErr("")}
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"
+            ></button>
+          </div>
+        )}
 
         <div className="form-floating mb-3">
           <input
@@ -64,11 +85,16 @@ export function Login() {
           <div className="invalid-feedback">{emailErr}</div>
         </div>
         <div className="form-floating mb-3">
-          <input onChange={e => setPass(e.target.value)} onBlur={isValidPass}
-                        type="password" id="password" value={pass}
-                        className={`form-control ${passErr ? 'is-invalid' : ''}`} />
-                    <label htmlFor="password">Password</label>
-                    <div className="invalid-feedback">{passErr}</div>
+          <input
+            onChange={(e) => setPass(e.target.value)}
+            onBlur={isValidPass}
+            type="password"
+            id="password"
+            value={pass}
+            className={`form-control ${passErr ? "is-invalid" : ""}`}
+          />
+          <label htmlFor="password">Password</label>
+          <div className="invalid-feedback">{passErr}</div>
         </div>
 
         <div className="form-check text-start my-3">

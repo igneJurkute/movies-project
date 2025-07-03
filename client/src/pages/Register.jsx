@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
 import style from "./Auth.module.css";
 import { useState } from "react";
 
 export function Register() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [usernameErr, setUsernameErr] = useState("");
   const [usernameValid, setUsernameValid] = useState(false);
@@ -100,16 +101,21 @@ export function Register() {
       })
         .then((res) => res.json())
          .then(data => {
-                    for (const item of data) {
-                        if (item.input === 'username') {
-                            setUsernameErr(item.msg);
-                        }
-                        if (item.input === 'email') {
-                            setEmailErr(item.msg);
-                        }
-                        if (item.input === 'password') {
-                            setPassErr(item.msg);
-                        }
+                    if (data.status === 'err-list') {
+                        for (const item of data.errors) {
+                            if (item.input === 'username') {
+                                setUsernameErr(item.msg);
+                            }
+                            if (item.input === 'email') {
+                                setEmailErr(item.msg);
+                            }
+                            if (item.input === 'password') {
+                                setPassErr(item.msg);
+                            }
+                          }
+                    }
+                     if (data.status === 'ok') {
+                        return navigate('/login');
                     }
                 })
                 .catch(err => console.error(err));
