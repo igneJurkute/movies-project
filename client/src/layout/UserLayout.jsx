@@ -49,6 +49,16 @@ export function UserLayout() {
                       Movies
                     </Link>
                   </li>
+                  <li className="nav-item">
+                    <Link
+                      to="/movies/add"
+                      className="nav-link d-flex align-items-center gap-2"
+                      href="/"
+                    >
+                      {/* <svg className="bi"><use xlink: href="#file-earmark"></use></svg> */}
+                      Add movies
+                    </Link>
+                  </li>
                 </ul>
 
                 <hr className="my-3" />
