@@ -1,13 +1,45 @@
 import { useState } from "react";
 import { slugify } from "../lib/slugify";
+import preview from '../assets/preview.png';
 
 export function AddMovie() {
     const [name, setName] = useState('');
     const [slug, setSlug] = useState('');
+    const [year, setYear] = useState('');
+    const [director, setDirector] = useState('');
+    const [genre, setGenre] = useState('');
+    const [duration, setDuration] = useState(0);
+    const [image, setImage] = useState('');
+    const [imageAlt, setImageAlt] = useState('');
 
     function updateName(e) {
         setName(e.target.value);
         setSlug(slugify(e.target.value));
+    }
+
+    function updateReleaseYear(e) {
+        setYear(e.target.value);
+    }
+
+    function updateDirector(e) {
+        setDirector(e.target.value);
+    }
+
+    function updateGenre(e) {
+        setGenre(e.target.value);
+    }
+
+    function updateDuration(e) {
+        const n = parseInt(e.target.value);
+        setDuration(n > 0 ? n : 0);
+    }
+
+    function updateImage(e) {
+        setImage(e.target.value);
+    }
+
+    function updateImageAlt(e) {
+        setImageAlt(e.target.value);
     }
 
     function handleSubmit(e) {
@@ -21,7 +53,7 @@ export function AddMovie() {
                 'Accept': 'application/json',
             },
             body: JSON.stringify({
-                name, slug,
+                name, slug, year, director, genre, duration, image, imageAlt,
             }),
         })
             .then(res => res.json())
@@ -37,8 +69,8 @@ export function AddMovie() {
                     <div className="row g-3">
                         <div className="col-12">
                             <label htmlFor="movieName" className="form-label">Movie name</label>
-                            <input onChange={updateName} value={name} type="text" 
-                            className="form-control" id="movieName" placeholder="Movie name" required />
+                            <input onChange={updateName} value={name} type="text"
+                                className="form-control" id="movieName" placeholder="Movie name" required />
                             <div className="invalid-feedback">
                                 Valid Movie name is required.
                             </div>
@@ -52,20 +84,75 @@ export function AddMovie() {
                                     placeholder="Slug" disabled />
                             </div>
                         </div>
-                    </div>
+                    <div className="col-12">
+                            <label htmlFor="releaseYear" className="form-label">Release year</label>
+                            <input onChange={updateReleaseYear} value={year} type="number"
+                                className="form-control" id="releaseYear" placeholder="Release year" required />
+                            <div className="invalid-feedback">
+                                Valid Release year is required.
+                            </div>
+                        </div>
 
-                    <hr className="my-4" />
+                    <div className="col-12">
+                            <label htmlFor="director" className="form-label">Director</label>
+                            <input onChange={updateDirector} value={director} type="text"
+                                className="form-control" id="director" placeholder="Director" required />
+                            <div className="invalid-feedback">
+                                Valid Director is required.
+                            </div>
+                        </div>
 
-                    <div className="form-check">
-                        <input type="checkbox" className="form-check-input" id="same-address" />
-                        <label className="form-check-label" htmlFor="same-address">Shipping 
-                            address is the same as my billing address</label>
-                    </div>
+                        <div className="col-12">
+                            <label htmlFor="genre" className="form-label">Genre</label>
+                            <select onChange={updateGenre} value={genre} className="form-select" id="genre">
+                                <option value="" >Open this select menu</option>
+                                <option value="drama">Drama</option>
+                                <option value="triller">Triller</option>
+                                <option value="comedy">Comedy</option>
+                            </select>
+                            <div className="invalid-feedback">
+                                Valid Genre is required.
+                            </div>
+                        </div>
 
-                     <div className="form-check">
-                        <input type="checkbox" className="form-check-input" id="save-info" />
-                        <label className="form-check-label" htmlFor="save-info">Save this information 
-                            for next time</label>
+                        <div className="col-12">
+                            <label htmlFor="duration" className="form-label">Duration, minutes</label>
+                            <input onChange={updateDuration} value={duration} type="number"
+                                className="form-control" id="duration" placeholder="Duration" required />
+                            <div className="invalid-feedback">
+                                Valid Duration is required.
+                            </div>
+                        </div>
+
+                      <hr className="my-4" />
+                        <h4 className="mb-3">Image</h4>
+
+                        <div className="col-12">
+
+                            <div class="row g-3">
+                                <div class="col-2">
+                                    <img src={preview} alt="Preview" style={{ height: 80, width: 80, objectFit: 'contain', }}
+                                        className="me-5" />
+                                </div>
+                                <div class="col-10">
+                                    <label className="form-label" htmlFor="coverImage">Upload cover image</label>
+                                    <input onChange={updateImage} value={image} type="file"
+                                        className="form-control" id="coverImage" />
+                                    <div className="invalid-feedback">
+                                        Valid Cover image is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-12">
+                            <label htmlFor="imageAlt" className="form-label">Cover alt text</label>
+                            <input onChange={updateImageAlt} value={imageAlt} type="text"
+                                className="form-control" id="imageAlt" placeholder="Cover alt text" required />
+                            <div className="invalid-feedback">
+                                Valid Cover alt text is required.
+                            </div>
+                        </div>
 
                     </div>
 
