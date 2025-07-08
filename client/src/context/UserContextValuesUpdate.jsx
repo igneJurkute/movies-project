@@ -5,7 +5,6 @@ export function UserContextValuesUpdate(props) {
     const ctx = useContext(UserContext);
 
     useEffect(() => {
-
         fetch('http://localhost:3001/api/login', {
             method: 'GET',
             credentials: 'include',

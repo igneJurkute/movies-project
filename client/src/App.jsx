@@ -13,8 +13,7 @@ import { AddMovie } from './pages/AddMovie';
 
 function App() {
   return (
-    <>
-      <UserContextProvider>
+    <UserContextProvider>
       <UserContextValuesUpdate>
         <BrowserRouter>
           <Routes>
@@ -24,21 +23,21 @@ function App() {
               <Route path='/login' element={<Login />} />
             </Route>
 
-        <Route Component={UserLayout}>
+            <Route Component={UserLayout}>
               <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/movies' element={<Movies />} />
               <Route path='/movies/add' element={<AddMovie />} />
-        </Route>
+            </Route>
 
-        <Route Component={BasicLayout}>
+            <Route Component={BasicLayout}>
               <Route path='*' element={<NoPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
       </UserContextValuesUpdate>
     </UserContextProvider>
-    </>   
   );
 }
 
 export default App;
+
